@@ -52,8 +52,6 @@ public class NewsFeed extends AppCompatActivity implements LoaderManager.LoaderC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview_newsitem);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
