@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NewsItem</string>
+    <string name="action_settings">Settings</string>
+    <string name="content_authority">com.doronzehavi.newsitem</string>
+</resources>
