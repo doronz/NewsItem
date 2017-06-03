@@ -16,7 +16,9 @@ public class JsonUtils {
 
 
     private static final String ERROR__CODE = "error_code";
-    private static final String NEWS_LIST = "articles";
+
+    private static final String EMBEDDED_DATA = "_embedded";
+    private static final String NEWS_LIST = "newsItems";
 
     private static final String NEWS_API_TITLE = "title";
     private static final String NEWS_API_AUTHOR = "author";
@@ -45,7 +47,8 @@ public class JsonUtils {
             }
         }
 
-        JSONArray jsonNewsItemArray = newsItemJson.getJSONArray(NEWS_LIST);
+        JSONObject jsonEmbeddedData = newsItemJson.getJSONObject(EMBEDDED_DATA);
+        JSONArray jsonNewsItemArray = jsonEmbeddedData.getJSONArray(NEWS_LIST);
 
         ContentValues[] newsItemContentValues = new ContentValues[jsonNewsItemArray.length()];
 

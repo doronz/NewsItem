@@ -3,9 +3,6 @@ package com.doronzehavi.newsitem.data;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
- * Created by doronzehavi on 3/6/17.
- */
 
 public class NewsItemContract {
 

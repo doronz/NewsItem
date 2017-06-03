@@ -16,7 +16,7 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private static final String STATIC_BASE_URL =
-            "https://newsapi.org/v1/articles?source=associated-press&sortBy=top&apiKey=0ca610c61a054ab58ab294304e556431";
+            "http://www.myownfeed.com/api/v1/newsItems?page=1";
 
     private static final String NEWS_BASE_URL = STATIC_BASE_URL;
 

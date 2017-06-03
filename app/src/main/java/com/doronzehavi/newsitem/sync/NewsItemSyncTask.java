@@ -11,25 +11,19 @@ import com.doronzehavi.newsitem.utilities.NetworkUtils;
 
 import java.net.URL;
 
-/**
- * Created by doronzehavi on 3/6/17.
- */
-
 public class NewsItemSyncTask {
 
 
     /**
      * Performs the network request for updated news items, parses the JSON from that request, and
-     * inserts the new weather information into our ContentProvider.
+     * inserts the new newsitems into our ContentProvider.
      *
      * @param context Used to access utility methods and the ContentResolver
      */
     synchronized public static void syncNewsItems(Context context) {
         try {
             /*
-             * The getUrl method will return the URL that we need to get the forecast JSON for the
-             * weather. It will decide whether to create a URL based off of the latitude and
-             * longitude or off of a simple location as a String.
+             * The getUrl method will return the URL that we need to get the newsitem JSON.
              */
             URL newsItemRequestUrl = NetworkUtils.getUrl();
 
