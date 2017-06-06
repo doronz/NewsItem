@@ -25,7 +25,10 @@ public class NetworkUtils {
     }
 
     private static URL buildUrl() {
-        Uri newsQueryUri = Uri.parse(NEWS_BASE_URL).buildUpon().build();
+        Uri newsQueryUri = Uri.parse(NEWS_BASE_URL).buildUpon()
+                .appendQueryParameter("page", "1")
+                .appendQueryParameter("size", "100")
+                .build();
 
         try {
             URL newsQueryUrl = new URL(newsQueryUri.toString());
