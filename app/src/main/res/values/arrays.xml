@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="drawer_items">
-        <item>Log In</item>
-        <item>Sign Up</item>
-        <item>About</item>
-    </string-array>
+<resources xmlns:android="http://schemas.android.com/tools">
+
 </resources>

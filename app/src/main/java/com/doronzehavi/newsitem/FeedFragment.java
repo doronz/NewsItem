@@ -5,39 +5,26 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.doronzehavi.newsitem.data.NewsItemContract;
 import com.doronzehavi.newsitem.sync.NewsItemSyncTask;
 
-public class NewsFeed extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,NewsItemAdapter.NewsItemAdapterOnClickHandler {
-
+public class FeedFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,NewsItemAdapter.NewsItemAdapterOnClickHandler{
     private static final int ID_NEWSITEM_LOADER = 29;
+
     private RecyclerView mRecyclerView;
     private ProgressBar mLoadingIndicator;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private String[] mDrawerItems;
-
-    private NavigationView mNavigationView;
-
 
 
     /*
@@ -59,70 +46,34 @@ public class NewsFeed extends AppCompatActivity implements LoaderManager.LoaderC
     public static final int INDEX_NEWS_SUMMARY = 1;
     private NewsItemAdapter mNewsItemAdapter;
 
+    public static FeedFragment newInstance() {
+        return new FeedFragment();
+    }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_feed);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-
-        mDrawerItems = getResources().getStringArray(R.array.drawer_items);
-
-        mRecyclerView = (RecyclerView)findViewById(R.id.recyclerview_newsitem);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-
-        //TODO: handle nav clicks
-
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_newsitem);
+        mLoadingIndicator = (ProgressBar) v.findViewById(R.id.pb_loading_indicator);
         LinearLayoutManager layoutManager =
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+                new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mNewsItemAdapter = new NewsItemAdapter(this, this);
+        mNewsItemAdapter = new NewsItemAdapter(getActivity(), this);
         mRecyclerView.setAdapter(mNewsItemAdapter);
 
+        loadFeed();
+
+        return v;
+    }
+
+    void loadFeed(){
         showLoading();
-
-        getSupportLoaderManager().initLoader(ID_NEWSITEM_LOADER, null, this);
+        getActivity().getSupportLoaderManager().initLoader(ID_NEWSITEM_LOADER, null, this);
         SyncNewsTask syncTask = new SyncNewsTask();
-        syncTask.execute(this);
-
-    }
-
-    class SyncNewsTask extends AsyncTask<Context, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Context... params) {
-            NewsItemSyncTask.syncNewsItems(params[0]);
-            return null;
-        }
-    }
-
-    private void showLoading() {
-        mRecyclerView.setVisibility(View.INVISIBLE);
-        mLoadingIndicator.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        syncTask.execute(getActivity());
     }
 
     @Override
@@ -148,7 +99,7 @@ public class NewsFeed extends AppCompatActivity implements LoaderManager.LoaderC
 
 
 
-                return new CursorLoader(this,
+                return new CursorLoader(getActivity(),
                         newsItemQueryUri,
                         MAIN_NEWSITEM_PROJECTION,
                         null,
@@ -174,5 +125,19 @@ public class NewsFeed extends AppCompatActivity implements LoaderManager.LoaderC
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mNewsItemAdapter.swapCursor(null);
+    }
+
+    class SyncNewsTask extends AsyncTask<Context, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Context... params) {
+            NewsItemSyncTask.syncNewsItems(params[0]);
+            return null;
+        }
+    }
+
+    private void showLoading() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.VISIBLE);
     }
 }

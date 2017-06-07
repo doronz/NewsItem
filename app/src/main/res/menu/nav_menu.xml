@@ -5,20 +5,23 @@
     </group>
     <group android:id="@+id/nav_group_main" android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_feed"
             android:icon="@drawable/ic_view_stream_black_24dp"
             android:title="Feed" />
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/nav_sources"
             android:icon="@drawable/ic_star_black_24dp"
             android:title="Sources" />
     </group>
     <group android:id="@+id/nav_group_secondary">
         <item
+            android:id="@+id/nav_log_in"
             android:title="Log In" />
         <item
+            android:id="@+id/nav_register"
             android:title="Register" />
         <item
+            android:id="@+id/nav_about"
             android:title="About" />
     </group>
 </menu>

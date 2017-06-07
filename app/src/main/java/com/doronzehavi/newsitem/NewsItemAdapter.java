@@ -74,8 +74,8 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.NewsIt
     public void onBindViewHolder(NewsItemViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        String title = mCursor.getString(NewsFeed.INDEX_NEWS_TITLE);
-        String summary = mCursor.getString(NewsFeed.INDEX_NEWS_SUMMARY);
+        String title = mCursor.getString(FeedFragment.INDEX_NEWS_TITLE);
+        String summary = mCursor.getString(FeedFragment.INDEX_NEWS_SUMMARY);
 
         holder.titleView.setText(title);
         holder.summaryView.setText(summary);
@@ -84,7 +84,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter<NewsItemAdapter.NewsIt
 
     /**
      * Swaps the cursor used by the NewsItemAdapter for its weather data. This method is called by
-     * NewsFeed after a load has finished, as well as when the Loader responsible for loading
+     * MainActivity after a load has finished, as well as when the Loader responsible for loading
      * the news data is reset. When this method is called, we assume we have a completely new
      * set of data, so we call notifyDataSetChanged to tell the RecyclerView to update.
      *
